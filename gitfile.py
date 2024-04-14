@@ -1,8 +1,10 @@
 import nextcord
 from nextcord.ext import commands
+import asyncio
 
-TESTING_GUILD_ID = #insert here
-REPORT_CHANNEL_ID = #insert here
+
+TESTING_GUILD_ID =   # Replace with your testing guild id
+REPORT_CHANNEL_ID =   # Replace with the channel ID where you want to send the reports
 
 class ReportModal(nextcord.ui.Modal):
     report_count = 1
@@ -74,11 +76,13 @@ class ReportModal(nextcord.ui.Modal):
 
 class Confirm(nextcord.ui.View):
     def __init__(self):
-        super().__init__()
+        super().__init__(timeout=None)
 
     @nextcord.ui.button(label="Report A Player!", style=nextcord.ButtonStyle.green)
     async def confirm(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         await interaction.response.send_modal(ReportModal(REPORT_CHANNEL_ID))
+
+
 
 bot = commands.Bot()
 
@@ -102,4 +106,4 @@ async def about(interaction: nextcord.Interaction):
         )
         await interaction.response.send_message(about_message)
 
-bot.run('Place_token')
+bot.run('placetoken')
