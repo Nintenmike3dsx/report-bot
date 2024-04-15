@@ -1,8 +1,10 @@
 import nextcord
 from nextcord.ext import commands
+import asyncio
 
-TESTING_GUILD_ID =   # Replace with your testing guild id
-REPORT_CHANNEL_ID =   # Replace with the channel ID where you want to send the reports
+
+TESTING_GUILD_ID =
+REPORT_CHANNEL_ID =
 
 class ReportModal(nextcord.ui.Modal):
     report_count = 1
@@ -61,15 +63,22 @@ class ReportModal(nextcord.ui.Modal):
         if channel is None:
             return await interaction.response.send_message("Could not find the report channel.")
 
-        embed = nextcord.Embed(title=f"Player Report #{self.report_number}\n\n", color=0xFF0000)
-        embed.add_field(name="By Discord User:\n", value=interaction.user.display_name, inline=False)
-        embed.add_field(name="Region / Room Name:\n", value=self.room.value, inline=False)
-        embed.add_field(name="Reported Player:\n", value=self.TUM.value, inline=False)
-        embed.add_field(name="Report Sent By:\n", value=self.YUM.value, inline=False)
-        embed.add_field(name="What the Player Did:\n", value=self.WD.value, inline=False)
+        user = await bot.fetch_user()
+        if user:
+            embed = nextcord.Embed(title=f"Player Report #{self.report_number}\n\n", color=0xFF0000)
+            embed.add_field(name="By Discord User:\n", value=interaction.user.display_name, inline=False)
+            embed.add_field(name="Region / Room Name:\n", value=self.room.value, inline=False)
+            embed.add_field(name="Reported Player:\n", value=self.TUM.value, inline=False)
+            embed.add_field(name="Report Sent By:\n", value=self.YUM.value, inline=False)
+            embed.add_field(name="What the Player Did:\n", value=self.WD.value, inline=False)
+
+            await user.send(embed=embed)
 
         await channel.send(embed=embed)
-        await interaction.response.send_message("Thank you for reporting! Please send any images/videos you have to https://discord.com/channels/1078749205495042198/1228136524084674642. You may also mention any online Community Moderator for assistance!", ephemeral=True)
+        await interaction.response.send_message(
+            "Thank you for reporting! Please send any images/videos you have to https://discord.com/channels/1078749205495042198/1228136524084674642. You may also mention any online Community Moderator for assistance!",
+            ephemeral=True)
+
 
 class Confirm(nextcord.ui.View):
     def __init__(self):
@@ -78,6 +87,7 @@ class Confirm(nextcord.ui.View):
     @nextcord.ui.button(label="Report A Player!", style=nextcord.ButtonStyle.green)
     async def confirm(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         await interaction.response.send_modal(ReportModal(REPORT_CHANNEL_ID))
+
 
 bot = commands.Bot()
 
@@ -101,4 +111,4 @@ async def about(interaction: nextcord.Interaction):
         )
         await interaction.response.send_message(about_message)
 
-bot.run('placetoken')
+bot.run('')
