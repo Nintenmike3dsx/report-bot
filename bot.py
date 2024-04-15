@@ -3,8 +3,8 @@ from nextcord.ext import commands
 import asyncio
 
 
-TESTING_GUILD_ID =
-REPORT_CHANNEL_ID =
+TESTING_GUILD_ID = 
+REPORT_CHANNEL_ID = 
 
 class ReportModal(nextcord.ui.Modal):
     report_count = 1
@@ -20,9 +20,8 @@ class ReportModal(nextcord.ui.Modal):
         self.YUM = nextcord.ui.TextInput(
             label="What is Your In-Game Username?",
             placeholder="e.g. nintenmike3dsx.",
-            required=True,
             max_length=100,
-            style=nextcord.TextInputStyle.paragraph,
+            required=True,
             custom_id="persistent_modal:yourUN",
         )
         self.add_item(self.YUM)
@@ -49,7 +48,6 @@ class ReportModal(nextcord.ui.Modal):
             label="Region / Room Name",
             placeholder="e.g. USA East / tlsevent.",
             required=False,
-            style=nextcord.TextInputStyle.paragraph,
             max_length=100,
             custom_id="persistent_modal:roomServ",
         )
